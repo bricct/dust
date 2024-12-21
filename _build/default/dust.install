@@ -1,0 +1,20 @@
+lib: [
+  "_build/install/default/lib/dust/META"
+  "_build/install/default/lib/dust/dune-package"
+  "_build/install/default/lib/dust/dust.a"
+  "_build/install/default/lib/dust/dust.cma"
+  "_build/install/default/lib/dust/dust.cmi"
+  "_build/install/default/lib/dust/dust.cmt"
+  "_build/install/default/lib/dust/dust.cmti"
+  "_build/install/default/lib/dust/dust.cmx"
+  "_build/install/default/lib/dust/dust.cmxa"
+  "_build/install/default/lib/dust/dust.ml"
+  "_build/install/default/lib/dust/dust.mli"
+  "_build/install/default/lib/dust/opam"
+]
+libexec: [
+  "_build/install/default/lib/dust/dust.cmxs"
+]
+bin: [
+  "_build/install/default/bin/dust"
+]

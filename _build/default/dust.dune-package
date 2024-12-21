@@ -1,0 +1,33 @@
+(lang dune 3.16)
+(name dust)
+(sections (lib .) (libexec .) (bin ../../bin))
+(files
+ (lib
+  (META
+   dune-package
+   dust.a
+   dust.cma
+   dust.cmi
+   dust.cmt
+   dust.cmti
+   dust.cmx
+   dust.cmxa
+   dust.ml
+   dust.mli
+   opam))
+ (libexec (dust.cmxs))
+ (bin (dust)))
+(library
+ (name dust)
+ (kind normal)
+ (archives (byte dust.cma) (native dust.cmxa))
+ (plugins (byte dust.cma) (native dust.cmxs))
+ (native_archives dust.a)
+ (requires lwt notty.lwt)
+ (main_module_name Dust)
+ (modes byte native)
+ (modules
+  (singleton
+   (obj_name dust)
+   (visibility public)
+   (source (path Dust) (intf (path dust.mli)) (impl (path dust.ml))))))

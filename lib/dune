@@ -1,0 +1,5 @@
+(library
+ (name dust)
+ (public_name dust) 
+ (libraries lwt notty.lwt))
+

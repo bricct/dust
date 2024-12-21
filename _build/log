@@ -1,0 +1,300 @@
+# dune build -w
+# OCAMLPARAM: unset
+# Shared cache: disabled
+# Shared cache location: /Users/trey/.cache/dune/db
+# Workspace root: /Users/trey/Projects/ocaml/dust
+# Auto-detected concurrency: 10
+# Dune context:
+#  { name = "default"
+#  ; kind = "default"
+#  ; profile = Dev
+#  ; merlin = true
+#  ; fdo_target_exe = None
+#  ; build_dir = In_build_dir "default"
+#  ; instrument_with = []
+#  }
+$ /Users/trey/.opam/default/bin/ocamlc.opt -config > /var/folders/h_/jl3w87xx2yb_xn56d3b7b3800000gn/T/dune_9c8b0e_output
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 12, characters 2-18:
+> 12 |   dim : int * int;
+>        ^^^^^^^^^^^^^^^^
+> Error (warning 69 [unused-field]): record field dim is never read.
+> (However, this field is used to build or mutate values.)
+>
+> File "lib/dust.ml", line 83, characters 10-13:
+> 83 |   ~f:(fun dim state e -> 
+>                ^^^
+> Error (warning 27 [unused-var-strict]): unused variable dim.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 12, characters 2-18:
+> 12 |   dim : int * int;
+>        ^^^^^^^^^^^^^^^^
+> Error (warning 69 [unused-field]): record field dim is never read.
+> (However, this field is used to build or mutate values.)
+>
+> File "lib/dust.ml", line 83, characters 10-13:
+> 83 |   ~f:(fun dim state e -> 
+>                ^^^
+> Error (warning 27 [unused-var-strict]): unused variable dim.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 85, characters 17-22:
+> 85 |     let s' = map state transform in
+>                       ^^^^^
+> Error: This expression has type int * int
+>        but an expression was expected of type ('a, 'b) state
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 85, characters 17-22:
+> 85 |     let s' = map state transform in
+>                       ^^^^^
+> Error: This expression has type int * int
+>        but an expression was expected of type ('a, 'b) state
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 66, characters 19-22:
+> 66 |     let cmd, s = f dim s e in
+>                         ^^^
+> Error: Unbound value dim
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 66, characters 19-22:
+> 66 |     let cmd, s = f dim s e in
+>                         ^^^
+> Error: Unbound value dim
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 66, characters 19-20:
+> 66 |     let cmd, s = f s e in
+>                         ^
+> Error: This expression has type
+>          ('a,
+>           [> `End
+>            | `Key of [> `ASCII of char ] * [> `Ctrl ] list
+>            | `Resize of int * int ])
+>          state
+>        but an expression was expected of type int * int
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 66, characters 19-20:
+> 66 |     let cmd, s = f s e in
+>                         ^
+> Error: This expression has type
+>          ('a,
+>           [> `End
+>            | `Key of [> `ASCII of char ] * [> `Ctrl ] list
+>            | `Resize of int * int ])
+>          state
+>        but an expression was expected of type int * int
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 64, characters 28-31:
+> 64 |       | evt -> invoke state evt frame
+>                                  ^^^
+> Error: This expression has type
+>          [> `End
+>           | `Key of [> `ASCII of char ] * [> `Ctrl ] list
+>           | `Resize of ('a, 'b) state ]
+>          as 'b
+>        but an expression was expected of type
+>          ('a,
+>           [> `End
+>            | `Key of [> `ASCII of char ] * [> `Ctrl ] list
+>            | `Resize of ('a, 'b) state ]
+>           as 'b)
+>          state
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 64, characters 28-31:
+> 64 |       | evt -> invoke state evt frame
+>                                  ^^^
+> Error: This expression has type
+>          [> `End
+>           | `Key of [> `ASCII of char ] * [> `Ctrl ] list
+>           | `Resize of ('a, 'b) state ]
+>          as 'b
+>        but an expression was expected of type
+>          ('a,
+>           [> `End
+>            | `Key of [> `ASCII of char ] * [> `Ctrl ] list
+>            | `Resize of ('a, 'b) state ]
+>           as 'b)
+>          state
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 63, characters 30-65:
+> 63 |       | `Resize dim as evt -> invoke { state with dim } evt frame
+>                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> Error: This expression has type 'a -> 'b
+>        but an expression was expected of type unit Lwt.t
+>   Hint: This function application is partial,
+>   maybe some arguments are missing.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 63, characters 30-65:
+> 63 |       | `Resize dim as evt -> invoke { state with dim } evt frame
+>                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> Error: This expression has type 'a -> 'b
+>        but an expression was expected of type unit Lwt.t
+>   Hint: This function application is partial,
+>   maybe some arguments are missing.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 51, characters 64-69:
+> 51 |     let lwts = List.map (fun t -> match t with Task lwt -> lwt) state.tasks in
+>                                                                      ^^^^^
+> Error: This expression has type int * int which is not a record type.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 51, characters 64-69:
+> 51 |     let lwts = List.map (fun t -> match t with Task lwt -> lwt) state.tasks in
+>                                                                      ^^^^^
+> Error: This expression has type int * int which is not a record type.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 51, characters 64-69:
+> 51 |     let lwts = List.map (fun t -> match t with Task lwt -> lwt) state.tasks in
+>                                                                      ^^^^^
+> Error: This expression has type int * int which is not a record type.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 51, characters 64-69:
+> 51 |     let lwts = List.map (fun t -> match t with Task lwt -> lwt) state.tasks in
+>                                                                      ^^^^^
+> Error: This expression has type int * int which is not a record type.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 51, characters 64-69:
+> 51 |     let lwts = List.map (fun t -> match t with Task lwt -> lwt) state.tasks in
+>                                                                      ^^^^^
+> Error: This expression has type int * int which is not a record type.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 51, characters 64-69:
+> 51 |     let lwts = List.map (fun t -> match t with Task lwt -> lwt) state.tasks in
+>                                                                      ^^^^^
+> Error: This expression has type int * int which is not a record type.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 51, characters 64-69:
+> 51 |     let lwts = List.map (fun t -> match t with Task lwt -> lwt) state.tasks in
+>                                                                      ^^^^^
+> Error: This expression has type int * int which is not a record type.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 51, characters 64-69:
+> 51 |     let lwts = List.map (fun t -> match t with Task lwt -> lwt) state.tasks in
+>                                                                      ^^^^^
+> Error: This expression has type int * int which is not a record type.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 51, characters 64-69:
+> 51 |     let lwts = List.map (fun t -> match t with Task lwt -> lwt) state.tasks in
+>                                                                      ^^^^^
+> Error: This expression has type int * int which is not a record type.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 51, characters 64-69:
+> 51 |     let lwts = List.map (fun t -> match t with Task lwt -> lwt) state.tasks in
+>                                                                      ^^^^^
+> Error: This expression has type int * int which is not a record type.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 51, characters 64-69:
+> 51 |     let lwts = List.map (fun t -> match t with Task lwt -> lwt) state.tasks in
+>                                                                      ^^^^^
+> Error: This expression has type int * int which is not a record type.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 51, characters 64-69:
+> 51 |     let lwts = List.map (fun t -> match t with Task lwt -> lwt) state.tasks in
+>                                                                      ^^^^^
+> Error: This expression has type int * int which is not a record type.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 51, characters 64-69:
+> 51 |     let lwts = List.map (fun t -> match t with Task lwt -> lwt) state.tasks in
+>                                                                      ^^^^^
+> Error: This expression has type int * int which is not a record type.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 51, characters 64-69:
+> 51 |     let lwts = List.map (fun t -> match t with Task lwt -> lwt) state.tasks in
+>                                                                      ^^^^^
+> Error: This expression has type int * int which is not a record type.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 66, characters 19-20:
+> 66 |     let cmd, s = f s e in
+>                         ^
+> Error: This expression has type
+>          ('a,
+>           [> `End
+>            | `Key of [> `ASCII of char ] * [> `Ctrl ] list
+>            | `Resize of int * int ])
+>          state
+>        but an expression was expected of type int * int
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 66, characters 19-20:
+> 66 |     let cmd, s = f s e in
+>                         ^
+> Error: This expression has type
+>          ('a,
+>           [> `End
+>            | `Key of [> `ASCII of char ] * [> `Ctrl ] list
+>            | `Resize of int * int ])
+>          state
+>        but an expression was expected of type int * int
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 76, characters 4-26:
+> 76 |     loop size init I.empty
+>          ^^^^^^^^^^^^^^^^^^^^^^
+> Error: The function loop has type
+>          ('a,
+>           [> `End
+>            | `Key of [> `ASCII of char ] * [> `Ctrl ] list
+>            | `Resize of int * int ])
+>          state -> Notty.I.t -> unit Lwt.t
+>        It is applied to too many arguments
+> File "lib/dust.ml", line 76, characters 19-26:
+> 76 |     loop size init I.empty
+>                         ^^^^^^^
+>   This extra argument is not expected.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+> File "lib/dust.ml", line 76, characters 4-26:
+> 76 |     loop size init I.empty
+>          ^^^^^^^^^^^^^^^^^^^^^^
+> Error: The function loop has type
+>          ('a,
+>           [> `End
+>            | `Key of [> `ASCII of char ] * [> `Ctrl ] list
+>            | `Resize of int * int ])
+>          state -> Notty.I.t -> unit Lwt.t
+>        It is applied to too many arguments
+> File "lib/dust.ml", line 76, characters 19-26:
+> 76 |     loop size init I.empty
+>                         ^^^^^^^
+>   This extra argument is not expected.
+[2]
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -a -o lib/dust.cma lib/.dust.objs/byte/dust.cmo)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -a -o lib/dust.cmxa lib/.dust.objs/native/dust.cmx)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -shared -linkall -I lib -o lib/dust.cmxs lib/dust.cmxa)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -o bin/main.exe /Users/trey/.opam/default/lib/lwt/lwt.cmxa /Users/trey/.opam/default/lib/uutf/uutf.cmxa /Users/trey/.opam/default/lib/notty/notty.cmxa /Users/trey/.opam/default/lib/ocaml/unix/unix.cmxa /Users/trey/.opam/default/lib/notty/unix/notty_unix.cmxa -I /Users/trey/.opam/default/lib/notty/unix /Users/trey/.opam/default/lib/ocplib-endian/ocplib_endian.cmxa /Users/trey/.opam/default/lib/ocplib-endian/bigstring/ocplib_endian_bigstring.cmxa /Users/trey/.opam/default/lib/ocaml/threads/threads.cmxa /Users/trey/.opam/default/lib/lwt/unix/lwt_unix.cmxa -I /Users/trey/.opam/default/lib/lwt/unix /Users/trey/.opam/default/lib/notty/lwt/notty_lwt.cmxa lib/dust.cmxa bin/.main.eobjs/native/dune__exe__Main.cmx)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -a -o lib/dust.cma lib/.dust.objs/byte/dust.cmo)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -a -o lib/dust.cmxa lib/.dust.objs/native/dust.cmx)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -shared -linkall -I lib -o lib/dust.cmxs lib/dust.cmxa)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -o bin/main.exe /Users/trey/.opam/default/lib/lwt/lwt.cmxa /Users/trey/.opam/default/lib/uutf/uutf.cmxa /Users/trey/.opam/default/lib/notty/notty.cmxa /Users/trey/.opam/default/lib/ocaml/unix/unix.cmxa /Users/trey/.opam/default/lib/notty/unix/notty_unix.cmxa -I /Users/trey/.opam/default/lib/notty/unix /Users/trey/.opam/default/lib/ocplib-endian/ocplib_endian.cmxa /Users/trey/.opam/default/lib/ocplib-endian/bigstring/ocplib_endian_bigstring.cmxa /Users/trey/.opam/default/lib/ocaml/threads/threads.cmxa /Users/trey/.opam/default/lib/lwt/unix/lwt_unix.cmxa -I /Users/trey/.opam/default/lib/lwt/unix /Users/trey/.opam/default/lib/notty/lwt/notty_lwt.cmxa lib/dust.cmxa bin/.main.eobjs/native/dune__exe__Main.cmx)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -bin-annot-occurrences -I lib/.dust.objs/byte -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/byte/dust.cmo -c -impl lib/dust.ml)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -a -o lib/dust.cma lib/.dust.objs/byte/dust.cmo)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.dust.objs/byte -I lib/.dust.objs/native -I /Users/trey/.opam/default/lib/bytes -I /Users/trey/.opam/default/lib/lwt -I /Users/trey/.opam/default/lib/lwt/unix -I /Users/trey/.opam/default/lib/notty -I /Users/trey/.opam/default/lib/notty/lwt -I /Users/trey/.opam/default/lib/notty/unix -I /Users/trey/.opam/default/lib/ocaml/threads -I /Users/trey/.opam/default/lib/ocaml/unix -I /Users/trey/.opam/default/lib/ocplib-endian -I /Users/trey/.opam/default/lib/ocplib-endian/bigstring -I /Users/trey/.opam/default/lib/uutf -intf-suffix .ml -no-alias-deps -opaque -o lib/.dust.objs/native/dust.cmx -c -impl lib/dust.ml)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -a -o lib/dust.cmxa lib/.dust.objs/native/dust.cmx)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -shared -linkall -I lib -o lib/dust.cmxs lib/dust.cmxa)
+$ (cd _build/default && /Users/trey/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -o bin/main.exe /Users/trey/.opam/default/lib/lwt/lwt.cmxa /Users/trey/.opam/default/lib/uutf/uutf.cmxa /Users/trey/.opam/default/lib/notty/notty.cmxa /Users/trey/.opam/default/lib/ocaml/unix/unix.cmxa /Users/trey/.opam/default/lib/notty/unix/notty_unix.cmxa -I /Users/trey/.opam/default/lib/notty/unix /Users/trey/.opam/default/lib/ocplib-endian/ocplib_endian.cmxa /Users/trey/.opam/default/lib/ocplib-endian/bigstring/ocplib_endian_bigstring.cmxa /Users/trey/.opam/default/lib/ocaml/threads/threads.cmxa /Users/trey/.opam/default/lib/lwt/unix/lwt_unix.cmxa -I /Users/trey/.opam/default/lib/lwt/unix /Users/trey/.opam/default/lib/notty/lwt/notty_lwt.cmxa lib/dust.cmxa bin/.main.eobjs/native/dune__exe__Main.cmx)

@@ -1,0 +1,4 @@
+(executable
+ (public_name dust)
+ (name main)
+ (libraries dust))
