@@ -1,6 +1,0 @@
-description = ""
-requires = "lwt notty.lwt"
-archive(byte) = "dust.cma"
-archive(native) = "dust.cmxa"
-plugin(byte) = "dust.cma"
-plugin(native) = "dust.cmxs"
