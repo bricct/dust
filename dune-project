@@ -11,7 +11,7 @@
 
 (maintainers "Trey Briccetti")
 
-(license LICENSE)
+(license Apache-2.0)
 
 (documentation https://url/to/documentation)
 
