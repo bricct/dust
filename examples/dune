@@ -1,0 +1,6 @@
+(executable
+  (public_name timer)
+  (name timer)
+  (modules timer)
+  (libraries dust lwt notty))
+

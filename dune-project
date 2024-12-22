@@ -11,16 +11,16 @@
 
 (maintainers "Trey Briccetti")
 
-(license Apache-2.0)
+(license "ISC")
 
 (documentation https://url/to/documentation)
 
 (package
  (name dust)
- (synopsis "A short synopsis")
- (description "A longer description")
- (depends ocaml dune)
+ (synopsis "Declarative TUI Apps")
+ (description "A small TUI framework powered by lwt and notty")
+ (depends ocaml dune notty lwt)
  (tags
-  (topics "to describe" your project)))
+  ("TUI" "Lwt" "Notty")))
 
 ; See the complete stanza docs at https://dune.readthedocs.io/en/stable/dune-files.html#dune-project
