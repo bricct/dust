@@ -1,4 +1,6 @@
 open Notty
+open Lwt
+open Core
 
 type state = { 
   remaining_ms : int;
@@ -10,8 +12,15 @@ let state = {
   running = false;
 }
 
-let init = Dust.make_state state 
-        |> Dust.add_timer 0.01 `Timer
+type event = [`Timer | Dust.event]
+
+let timer = (fun () -> 
+  Lwt_unix.sleep 0.01 >|= fun _ ->
+    Core.Tim
+    `Timer)
+
+let init : (state, event) Dust.State.t =
+  Dust.State.return state |> Dust.State.add_stream timer
 
 let handle_space s = 
   { s with running = not s.running }
@@ -25,13 +34,14 @@ let tick_timer s =
   else
     { s with running = false; }
 
-let update _ evt = 
-  let id s = s in
-  match evt with
-  | `Key (`ASCII ' ', _) -> handle_space, true
-  | `Key (`Backspace, _) -> handle_backspace, true
-  | `Timer -> tick_timer, true
-  | _ -> id, true
+let update state evt = 
+  let f = match evt with
+  | `Key (`ASCII ' ', _) -> handle_space
+  | `Key (`Backspace, _) -> handle_backspace
+  | `Timer -> tick_timer
+  | _ -> Fun.id
+  in
+  state |> Dust.State.map f, true
 
 let render _ state = 
   let fmt_time = 

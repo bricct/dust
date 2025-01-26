@@ -1,0 +1,6 @@
+(library
+ (name styles)
+ (public_name dust.styles)
+ (libraries notty)
+ (flags
+  (:standard -w -27-32-33-34-37-69)))

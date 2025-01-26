@@ -1,26 +1,32 @@
 open Notty
 
-type ('a, 'b) state
+type event = [`End
+       | `Key of Notty.Unescape.key
+       | `Mouse of Notty.Unescape.mouse
+       | `Paste of Notty.Unescape.paste
+       | `Resize of int * int ]
 
-val make_state : 'a -> ('a, 'b) state
+module State : sig
 
-val map : ('a, 'b) state -> ('a -> 'a) -> ('a, 'b) state
 
-val add_task : (unit -> 'b Lwt.t) -> ('a, 'b) state -> ('a, 'b) state
+  type ('a, 'b) t constraint 'b = [> event]
 
-val add_timer : float -> 'b -> ('a, 'b) state -> ('a, 'b) state
+  val map : ('a -> 'a) -> ('a, 'b) t -> ('a, 'b) t 
+  val return : 'a -> ('a, 'b) t
+
+  val get : ('a, 'b) t -> 'a
+
+  val add_task : (unit -> 'b Lwt.t) -> ('a, 'b) t -> ('a, 'b) t
+  val add_stream : (unit -> 'b Lwt.t) -> ('a, 'b) t -> ('a, 'b) t 
+
+end
+
+type ('a, 'b) state = ('a, 'b) State.t
+
 
 val run : render:(int * int -> 'a -> image) ->
-  init:('a, [> `End 
-     |  `Key of Unescape.key
-     | `Mouse of Unescape.mouse
-     | `Paste of Unescape.paste
-     | `Resize of int * int 
-    ]
-   as
-   'b) state ->
-update:
-  (('a, 'b) state ->
-  'b ->
-  ('a -> 'a) * bool) -> unit -> unit
+init:('a, 'b) state ->
+update:(('a, 'b) state -> 'b -> ('a, 'b) state * bool) ->
+unit ->
+unit
 

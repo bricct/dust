@@ -4,3 +4,8 @@
   (modules timer)
   (libraries dust lwt notty))
 
+(executable
+  (public_name secret)
+  (name secret)
+  (modules secret)
+  (libraries dust lwt notty))
