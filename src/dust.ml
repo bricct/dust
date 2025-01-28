@@ -63,6 +63,10 @@ module State = struct
     let task = make_task task id in
     { state with next_task_id = id + 1; tasks = task :: state.tasks }
 
+  let add_command : 'b -> ('a, 'b) t -> ('a, 'b) t = fun e s ->
+    let task = (fun () -> Lwt.return e) in
+    add_task task s
+
   let add_stream : (unit -> 'b Lwt.t) -> ('a, 'b) t -> ('a, 'b) t = fun f state ->
     let id = state.next_stream_id in
     let stream = make_stream f id in

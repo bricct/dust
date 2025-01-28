@@ -8,7 +8,6 @@ type event = [`End
 
 module State : sig
 
-
   type ('a, 'b) t constraint 'b = [> event]
 
   val map : ('a -> 'a) -> ('a, 'b) t -> ('a, 'b) t 
@@ -16,13 +15,13 @@ module State : sig
 
   val get : ('a, 'b) t -> 'a
 
+  val add_command : 'b -> ('a, 'b) t -> ('a, 'b) t
   val add_task : (unit -> 'b Lwt.t) -> ('a, 'b) t -> ('a, 'b) t
   val add_stream : (unit -> 'b Lwt.t) -> ('a, 'b) t -> ('a, 'b) t 
 
 end
 
 type ('a, 'b) state = ('a, 'b) State.t
-
 
 val run : render:(int * int -> 'a -> image) ->
 init:('a, 'b) state ->

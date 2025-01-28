@@ -8,7 +8,6 @@ let center w h img =
   hsnap ~align w img |> 
   vsnap ~align h 
 
-
 let block attr = I.char attr ' '
 
 let pad ?(l=0) ?(t=0) ?(r=0) ?(b=0) attr img =
