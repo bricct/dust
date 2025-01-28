@@ -150,4 +150,6 @@ let update (state : (state, event) State.t)  (evt : event) : (state, event) Stat
   | Menu m -> Menu.handle_keys evt m state
   | Normal s | Credits s -> Normal.handle_keys evt s state
 
-let () = Dust.run ~init ~render ~update ()
+let render_with_layout d s = render d s |> Common.layout d "Secret"
+
+let () = Dust.run ~init ~render:render_with_layout ~update ()

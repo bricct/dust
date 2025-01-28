@@ -1,0 +1,7 @@
+(executable
+  (public_name timer)
+  (name timer)
+  (modules timer)
+  (libraries common dust core lwt notty)
+  (flags
+  (:standard -w -27-32-33-34-37-69)))

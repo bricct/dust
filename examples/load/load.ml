@@ -1,3 +1,4 @@
+open Common
 open Notty
 open Dust
 open Lwt
@@ -120,5 +121,6 @@ let update (state : (state, event) State.t) (evt : event) =
   let state = state |> State.map f in
   Option.fold ~none:state ~some:(fun t -> state |> State.add_task t) task, true
       
+let render_with_layout d s = render d s |> layout d "Load"
 
-let () = Dust.run ~init ~render ~update ()
+let () = Dust.run ~init ~render:render_with_layout ~update ()

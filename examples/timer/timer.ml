@@ -64,5 +64,7 @@ let update state evt =
   state |> State.map f, true
 
 
-let () = Dust.run ~init ~render ~update ()
+let render_with_layout d s = render d s |> Common.layout d "Timer"
+
+let () = Dust.run ~init ~render:render_with_layout ~update ()
 

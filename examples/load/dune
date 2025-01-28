@@ -1,0 +1,7 @@
+(executable
+  (public_name load)
+  (name load)
+  (modules load)
+  (libraries dust lwt notty common)
+  (flags
+  (:standard -w -27-32-33-34-37-69)))

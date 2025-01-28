@@ -8,6 +8,8 @@ val block : attr -> int -> int -> image
 
 val pad : ?l:int -> ?t:int -> ?r:int -> ?b:int -> attr -> image -> image
 
+val justify : ?attr:attr -> int -> image list -> image
+
 val box : ?width:int -> ?height:int -> ?v_align:[ `Top | `Middle | `Bottom ] -> ?h_align:[ `Left | `Middle | `Right ] -> attr -> image -> image
 
 val flex_v : ?gap:int -> ?align:[ `Left | `Middle | `Right] -> attr -> image list -> image

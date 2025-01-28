@@ -1,0 +1,5 @@
+(library
+ (name common)
+ (libraries notty lwt dust dust.styles)
+ (flags
+  (:standard -w -27-32-33-34-37-69)))

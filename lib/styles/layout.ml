@@ -54,6 +54,29 @@ let flex_v ?gap ?(align = `Left) attr images  =
   let padded_images = List.map (pad max_width) images in
   compose padded_images max_width
 
+let justify ?(attr = A.empty) width images =
+  let total_width, len = List.fold_left (fun (w, l) i -> w + I.width i, l + 1) (0, 0) images in
+  let remaining = width - total_width in
+  if remaining < 0 then 
+    I.string A.empty "Images are too big for space" 
+  else
+    match images with
+    | [] -> I.empty
+    | img :: images ->
+      let base = remaining / len in 
+      let ex = remaining mod len in
+      let folder (img, extra) i = 
+        let l, extra = 
+          if extra > 0 then
+            base + 1, extra - 1
+          else
+            base, extra
+        in
+        let rhi = pad ~l attr i in
+        (I.(img <|> rhi), extra)
+      in
+      fst @@ List.fold_left folder (img, ex) images
+
 let flex_h ?gap ?(align = `Top) attr images  =
   let compose_with_gaps padded_imgs height gap = 
     let gap_box = I.char attr ' ' gap height in
