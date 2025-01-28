@@ -119,13 +119,14 @@ module Menu = struct
       in
       I.( acc <-> fmt c a )) choices I.empty 
     in
-    I.pad ~l:5 i
+    i
 end
 
 let render_text (w, _) s =
   let s_img = I.string A.(fg white) s in
-  let s_len = String.length s in
-  I.( s_img |> I.pad ~l:((w/2) - (s_len/2)) ~t:1)
+  (* let s_len = String.length s in *)
+  s_img
+  (* I.( s_img |> I.pad ~l:((w/2) - (s_len/2)) ~t:1)*)
 
 module Normal = struct
   type t = string

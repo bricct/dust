@@ -1,4 +1,5 @@
 open Common
+open Styles
 open Notty
 open Dust
 open Lwt
@@ -80,36 +81,29 @@ let render _ state =
   let wave = load_str loaded value wave in
 
   let spinner = 
-    let img = 
-      if loaded then
-        I.string A.(fg white) "Loaded!"
-      else
-        I.(string A.(fg white) "Loading " <|> uchar A.(fg white) (spinner counter) 1 1)
-    in
-    img |> I.pad ~b:1
+    if loaded then
+      I.string A.(fg white) "Loaded!"
+    else
+      I.(string A.(fg white) "Loading " <|> uchar A.(fg white) (spinner counter) 1 1)
   in
   
   let slash = 
-    let img = 
-      if loaded then
-        I.string A.(fg white) "Loaded!"
-      else
-        I.(string A.(fg white) "Loading " <|> char A.(fg white) (slash counter) 1 1)
-    in
-    img |> I.pad ~b:1
+    if loaded then
+      I.string A.(fg white) "Loaded!"
+    else
+      I.(string A.(fg white) "Loading " <|> char A.(fg white) (slash counter) 1 1)
   in
 
   let elipses =
-    let img = 
-      if loaded then
-        I.string A.(fg white) "Loaded!"
-      else
-        I.(string A.(fg white) "Loading " <|> char A.(fg white) '.' counter 1)
-    in
-    img |> I.pad ~b:1
+    if loaded then
+      I.string A.(fg white) "Loaded!"
+    else
+      I.(string A.(fg white) "Loading " <|> char A.(fg white) '.' counter 1)
   in
 
-  I.vcat [shaded; wave; spinner; slash; elipses; ] |> I.pad ~l:5 ~t:1
+  let void = I.void 12 1 in
+
+  Layout.flex_v ~gap:1 A.empty [shaded; wave; spinner; slash; elipses; void]
 
 let update (state : (state, event) State.t) (evt : event) = 
   let f, task =

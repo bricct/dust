@@ -92,7 +92,7 @@ let init : (state, event) State.t =
 
 let render_secret (width, _) secret =
   let img = I.string A.(fg white) secret.render in
-  I.pad ~l: ((width / 2) - (secret.len / 2)) ~t:2 img
+  I.pad ~t:2 img
 
 let render_debug dim state = 
   let fmt n v = I.pad ~t:1 ~b:1 ~r:1 ~l:1 @@ I.string A.(fg white) (n ^ ": " ^ v) in
@@ -110,7 +110,7 @@ let render_debug dim state =
     I.vcat [r_img; v_img; nums] |> I.pad ~t:1
   in
   let secrets = IntMap.fold (fun _ s l -> (render_secret_debug dim s) :: l) state.strings [] |> List.rev |> I.vcat in
-  I.pad ~l:5 ~t:2 @@ I.vcat [c_img; f_img; secrets]
+  I.pad ~t:2 @@ I.vcat [c_img; f_img; secrets]
 
 let render dim state = 
    if state.debug then

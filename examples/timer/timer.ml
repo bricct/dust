@@ -52,7 +52,7 @@ let render _ state =
     ^ "." 
     ^ Printf.sprintf "%.3d" (state.remaining_ms mod 1000) in
   let time = I.string A.(bg white ++ fg (gray 8)) @@ fmt_time in
-  I.pad ~l:8 ~t:2 time
+  I.pad ~t:2 time
 
 let update state evt = 
   let f = match evt with
