@@ -122,12 +122,6 @@ module Menu = struct
     i
 end
 
-let render_text (w, _) s =
-  let s_img = I.string A.(fg white) s in
-  (* let s_len = String.length s in *)
-  s_img
-  (* I.( s_img |> I.pad ~l:((w/2) - (s_len/2)) ~t:1)*)
-
 module Normal = struct
   type t = string
   
@@ -137,7 +131,7 @@ module Normal = struct
   | `Key (`Escape, _) -> state |> State.map (fun _ -> init_state), true
   | _ -> state, false
 
-  let render = render_text
+  let render (w, _) s = I.string A.(fg white) s
 end
 
 let render dim state =
@@ -151,6 +145,13 @@ let update (state : (state, event) State.t)  (evt : event) : (state, event) Stat
   | Menu m -> Menu.handle_keys evt m state
   | Normal s | Credits s -> Normal.handle_keys evt s state
 
-let render_with_layout d s = render d s |> Common.layout d "Secret"
+let help_text = 
+  [ 
+    ("↑/↓", "Up/Down");
+    ("spc", "Select");
+    ("esc", "Back");
+  ] |> Common.controls
+
+let render_with_layout d s = render d s |> Common.layout d "Menu" help_text
 
 let () = Dust.run ~init ~render:render_with_layout ~update ()

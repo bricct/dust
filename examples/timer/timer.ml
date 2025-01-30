@@ -1,3 +1,4 @@
+open Styles
 open Notty
 open Core
 open Dust
@@ -46,13 +47,18 @@ let tick_timer = function
       let remaining_ms = remaining_ms - elapsed_ms in
       { timer = Started now; remaining_ms = remaining_ms }
 
+let help_text = 
+  [ 
+    ("spc", "Start/Stop");
+    ("bkspc", "Reset");
+  ] |> Common.controls
+
 let render _ state = 
   let fmt_time = 
     Printf.sprintf "%d" (state.remaining_ms / 1000) 
     ^ "." 
     ^ Printf.sprintf "%.3d" (state.remaining_ms mod 1000) in
-  let time = I.string A.(bg white ++ fg (gray 8)) @@ fmt_time in
-  I.pad ~t:2 time
+  I.string A.(bg white ++ fg (gray 8)) @@ fmt_time
 
 let update state evt = 
   let f = match evt with
@@ -63,8 +69,7 @@ let update state evt =
   in
   state |> State.map f, true
 
-
-let render_with_layout d s = render d s |> Common.layout d "Timer"
+let render_with_layout d s = render d s |> Common.layout d "Timer" help_text
 
 let () = Dust.run ~init ~render:render_with_layout ~update ()
 
