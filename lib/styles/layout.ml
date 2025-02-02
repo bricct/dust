@@ -12,7 +12,7 @@ let block attr = I.char attr ' '
 
 let pad ?(l=0) ?(t=0) ?(r=0) ?(b=0) attr img =
   let create_pad w h attr = 
-    if (w = 0 || h = 0) then I.void 0 0 else I.char attr ' ' w h
+    if (w = 0 || h = 0) then I.empty else I.char attr ' ' w h
   in
   let img_height = I.height img in
   let inner = I.hcat [ create_pad l img_height attr; img; create_pad r img_height attr ] in

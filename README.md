@@ -7,3 +7,4 @@ Notty and Lwt.
 <img src="https://github.com/bricct/dust/raw/main/examples/secret/demo.gif"/>
 <img src="https://github.com/bricct/dust/raw/main/examples/menu/demo.gif"/>
 <img src="https://github.com/bricct/dust/raw/main/examples/timer/demo.gif"/>
+<img src="https://github.com/bricct/dust/raw/main/examples/timer/form.gif"/>

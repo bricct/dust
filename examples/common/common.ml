@@ -6,12 +6,13 @@ let layout (width, height) name help i =
   let g = A.(bg (gray 4)) in
   let close = 
     I.( I.string A.(fg (gray 12) ++ g) "(Ctrl-Q): "
-    <|> I.string A.(fg white ++ g) "Exit")
+    <|> I.string A.(fg white ++ g) "exit")
   in
   let name = I.string A.(fg white ++ st bold ++ g) name in
   let lspace = ((width / 2) - (I.width name / 2)) - (I.width close) in
-  let rspace = ((width / 2) - ((I.width name / 2)) + (I.width name mod 2)) in
-  let header = I.( close <|> Layout.pad ~l:lspace ~r:rspace  g name ) in
+  let rspace = (((width / 2) + width mod 2) - ((I.width name / 2))) in
+  let header = Layout.pad ~l:lspace ~r:rspace g name in
+  let header = I.( close <|> header ) in
   Layout.flex_v ~gap:2 ~align:`Middle A.empty [header; i; help ]
 
 
