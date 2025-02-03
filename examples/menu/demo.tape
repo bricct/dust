@@ -4,11 +4,12 @@ Set FontSize 20
 Set Width 1200
 Set Height 600
 
+Hide
 Type "dune exec menu --no-print-directory"
-
-Sleep 500ms
-
 Enter
+Sleep 0.2s
+Show
+
 Sleep 0.2s
 Down
 Sleep 0.2s
