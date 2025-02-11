@@ -232,6 +232,15 @@ let update (state : (state, Dust.event) State.t) (evt : Dust.event) =
   in
   state, true
 
-let render_with_layout d s = render d s |> Common.layout d "Form" I.empty
+
+let help = 
+  let controls = [
+    ("Tab", "next");
+    ("Shift-Tab", "prev");
+    ("Space", "enter");
+  ] in
+  Common.controls controls
+
+let render_with_layout d s = render d s |> Common.layout d "Form" help
 
 let () = Dust.run ~init ~update ~render:render_with_layout ()

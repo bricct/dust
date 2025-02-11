@@ -14,6 +14,7 @@ module State : sig
   val return : 'a -> ('a, 'b) t
 
   val get : ('a, 'b) t -> 'a
+  val set : ('a, 'b) t -> 'a -> ('a, 'b) t
 
   val add_command : 'b -> ('a, 'b) t -> ('a, 'b) t
   val add_task : (unit -> 'b Lwt.t) -> ('a, 'b) t -> ('a, 'b) t

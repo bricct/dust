@@ -84,6 +84,8 @@ module State = struct
 
   let get state = state.internal
 
+  let set state internal = map (fun _ -> internal) state
+
 end
 
 type ('a, 'b) state = ('a, 'b) State.t
