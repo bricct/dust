@@ -10,9 +10,12 @@ let center w h img =
 
 let block ?(attr = A.empty) = I.char attr ' '
 
-let pad ?(l=0) ?(t=0) ?(r=0) ?(b=0) ?(attr = A.empty) img =
+let pad ?(l=0) ?(t=0) ?(r=0) ?(b=0) ?(attr) img =
   let create_pad w h attr = 
-    if (w = 0 || h = 0) then I.empty else I.char attr ' ' w h
+    if (w = 0 || h = 0) then I.empty
+    else match attr with 
+    | None -> I.void w h
+    | Some attr -> I.char attr ' ' w h
   in
   let img_height = I.height img in
   let inner = I.hcat [ create_pad l img_height attr; img; create_pad r img_height attr ] in
@@ -113,7 +116,7 @@ let flex_h ?gap ?(align = `Top) ?(attr = A.empty) images  =
   compose padded_images max_height
 
 
-let box ?width ?height ?(v_align = `Middle) ?(h_align = `Middle) ?(attr = A.empty) img = 
+let box ?width ?height ?(v_align = `Middle) ?(h_align = `Middle) ?(attr) img = 
   let width_diff = match width with
   | None -> 0
   | Some w -> max (w - I.width img) 0
@@ -137,7 +140,7 @@ let box ?width ?height ?(v_align = `Middle) ?(h_align = `Middle) ?(attr = A.empt
     | `Middle -> split width_diff
     | `Right -> width_diff, 0
     in
-  pad ~l ~r ~t ~b ~attr img
+  pad ~l ~r ~t ~b ?attr img
 
 
 let flex ?gap ?(align = `Top) ?(attr = A.empty) images  =
