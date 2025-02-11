@@ -1,6 +1,6 @@
 open Notty
 
-let outline ?(border = `Square) attr i  =
+let outline ?(border = `Square) ?(attr = A.empty) i  =
   let (h, v, a, b, c, d) = match border with
     | `Square -> (0x2500, 0x2502, 0x250c, 0x2510, 0x2514, 0x2518)
     | `Round -> (0x2500, 0x2502, 0x256d, 0x256e, 0x2570, 0x256f)
@@ -11,6 +11,6 @@ let outline ?(border = `Square) attr i  =
   let chr x = I.uchar attr (Uchar.of_int x) 1 1 in
   let hbar  = I.uchar attr (Uchar.of_int h) (width+2) 1 in
   let vbar  = I.uchar attr (Uchar.of_int v) 1 height in
-  let i = Layout.pad ~l:1 ~r:1 attr i in
+  let i = Layout.pad ~l:1 ~r:1 ~attr i in
   Layout.grid [ [chr a; hbar; chr b]; [vbar; i; vbar]; [chr c; hbar; chr d] ]
 

@@ -73,21 +73,21 @@ let focus_prev form =
 
 let render_input { name; value; } focused width = 
   let attr = if focused then A.(bg (gray 10) ++ fg lightwhite) else A.empty in
-  let value = I.string attr value |> Layout.pad ~r:((width - 4) - (String.length value)) attr in
-  let value = Styles.Outline.outline ~border:`Round A.empty value in
+  let value = I.string attr value |> Layout.pad ~r:((width - 4) - (String.length value)) ~attr:attr in
+  let value = Styles.Outline.outline ~border:`Round value in
   let name = 
     I.string A.(st bold) name 
     |> I.pad ~l:1
   in
-  Layout.flex_v ~align:`Left A.empty [ name; value]
+  Layout.flex_v ~align:`Left [ name; value]
 
 let render_button { name; _ } focused width =
   let attr = if focused then A.(bg (gray 10) ++ fg lightwhite) else A.empty in
   let name = 
     I.string attr name 
-    |> Layout.box ~width:(width - 4) ~height:1 ~h_align:`Middle attr 
+    |> Layout.box ~width:(width - 4) ~height:1 ~h_align:`Middle ~attr:attr 
   in
-  Styles.Outline.outline ~border:`Round A.empty name
+  Styles.Outline.outline ~border:`Round name
 
 let render_form f = 
   let { prev; current; next; format; gap; } = f in

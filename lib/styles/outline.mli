@@ -1,4 +1,4 @@
 open Notty
 
-val outline : ?border:[`Round | `Square | `Double | `Open ] -> attr -> image -> image
+val outline : ?border:[`Round | `Square | `Double | `Open ] -> ?attr:attr -> image -> image
 

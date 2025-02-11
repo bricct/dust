@@ -8,9 +8,9 @@ let center w h img =
   hsnap ~align w img |> 
   vsnap ~align h 
 
-let block attr = I.char attr ' '
+let block ?(attr = A.empty) = I.char attr ' '
 
-let pad ?(l=0) ?(t=0) ?(r=0) ?(b=0) attr img =
+let pad ?(l=0) ?(t=0) ?(r=0) ?(b=0) ?(attr = A.empty) img =
   let create_pad w h attr = 
     if (w = 0 || h = 0) then I.empty else I.char attr ' ' w h
   in
@@ -19,7 +19,7 @@ let pad ?(l=0) ?(t=0) ?(r=0) ?(b=0) attr img =
   let img_width = I.width inner in
   I.vcat [ create_pad img_width t attr; inner; create_pad img_width b attr]
 
-let flex_v ?gap ?(align = `Left) attr images  =
+let flex_v ?gap ?(align = `Left) ?(attr = A.empty) images  =
   let compose_with_gaps padded_imgs width gap = 
     let gap_box = I.char attr ' ' width gap in
     let rec interleave_with_gaps imgs out = 
@@ -72,12 +72,12 @@ let justify ?(attr = A.empty) width images =
           else
             base, extra
         in
-        let rhi = pad ~l attr i in
+        let rhi = pad ~l ~attr i in
         (I.(img <|> rhi), extra)
       in
       fst @@ List.fold_left folder (img, ex) images
 
-let flex_h ?gap ?(align = `Top) attr images  =
+let flex_h ?gap ?(align = `Top) ?(attr = A.empty) images  =
   let compose_with_gaps padded_imgs height gap = 
     let gap_box = I.char attr ' ' gap height in
     let rec interleave_with_gaps imgs out = 
@@ -113,7 +113,7 @@ let flex_h ?gap ?(align = `Top) attr images  =
   compose padded_images max_height
 
 
-let box ?width ?height ?(v_align = `Middle) ?(h_align = `Middle) attr img = 
+let box ?width ?height ?(v_align = `Middle) ?(h_align = `Middle) ?(attr = A.empty) img = 
   let width_diff = match width with
   | None -> 0
   | Some w -> max (w - I.width img) 0
@@ -137,10 +137,10 @@ let box ?width ?height ?(v_align = `Middle) ?(h_align = `Middle) attr img =
     | `Middle -> split width_diff
     | `Right -> width_diff, 0
     in
-  pad ~l ~r ~t ~b attr img
+  pad ~l ~r ~t ~b ~attr img
 
 
-let flex ?gap ?(align = `Top) attr images  =
+let flex ?gap ?(align = `Top) ?(attr = A.empty) images  =
   let compose_pair = I.( <|> ) in
   let compose_list = I.hcat in
 

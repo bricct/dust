@@ -103,7 +103,7 @@ let render _ state =
 
   let void = I.void 12 1 in
 
-  Layout.flex_v ~gap:1 A.empty [shaded; wave; spinner; slash; elipses; void]
+  Layout.flex_v ~gap:1 [shaded; wave; spinner; slash; elipses; void]
 
 let update (state : (state, event) State.t) (evt : event) = 
   let f, task =
