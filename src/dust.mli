@@ -6,27 +6,34 @@ type event = [`End
        | `Paste of Notty.Unescape.paste
        | `Resize of int * int ]
 
+type dust_handle
+
 module State : sig
 
   type ('a, 'b) t constraint 'b = [> event]
 
-  val map : ('a -> 'a) -> ('a, 'b) t -> ('a, 'b) t 
-  val return : 'a -> ('a, 'b) t
+  val map : ('a -> 'c) -> ('a, 'b) t -> ('c, 'b) t 
 
-  val get : ('a, 'b) t -> 'a
+  val extract : ('a, 'b) t -> 'a
+  val extend : (('a, 'b) t -> 'c) -> ('a, 'b) t -> ('c, 'b) t
+
   val set : ('a, 'b) t -> 'a -> ('a, 'b) t
 
   val add_command : 'b -> ('a, 'b) t -> ('a, 'b) t
   val add_task : (unit -> 'b Lwt.t) -> ('a, 'b) t -> ('a, 'b) t
   val add_stream : (unit -> 'b Lwt.t) -> ('a, 'b) t -> ('a, 'b) t 
+  val add_timer : 'b -> ms:int -> ?iters:int -> ('a, 'b) t -> dust_handle * ('a, 'b) t
+
+  val remove : dust_handle -> ('a, 'b) t -> ('a, 'b) t
 
 end
 
 type ('a, 'b) state = ('a, 'b) State.t
 
 val run : render:(int * int -> 'a -> image) ->
-init:('a, 'b) state ->
+model:'a ->
 update:(('a, 'b) state -> 'b -> ('a, 'b) state * bool) ->
+?init:(('a, 'b) state -> ('a, 'b) state) ->
 unit ->
 unit
 

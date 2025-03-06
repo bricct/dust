@@ -11,7 +11,7 @@ type state = {
   timer : timer_state;
 }
 
-let state = { 
+let model = { 
   remaining_ms = 10000;
   timer = Stopped;
 }
@@ -21,8 +21,8 @@ type event = [`Timer | Dust.event]
 let timer = (fun () -> 
   Lwt_unix.sleep 0.02 >|= fun _ -> `Timer)
 
-let init : (state, event) State.t =
-  State.return state |> State.add_stream timer
+let init : ((state, event) State.t -> (state, event) State.t) = fun dust_state ->
+  dust_state |> State.add_stream timer
 
 let handle_space s = 
   match s.timer with
@@ -71,5 +71,5 @@ let update state evt =
 
 let render_with_layout d s = render d s |> Common.layout d "Timer" help_text
 
-let () = Dust.run ~init ~render:render_with_layout ~update ()
+let () = Dust.run ~model ~init ~render:render_with_layout ~update ()
 

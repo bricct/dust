@@ -10,7 +10,7 @@ type state = {
   counter : int;
 }
 
-let state = {
+let model = {
   value = "";
   loaded = false;
   counter = 0;
@@ -22,11 +22,8 @@ let animate = (fun () -> Lwt_unix.sleep 0.2 >|= fun _ -> `Animate)
 let load_func = (fun () -> Lwt_unix.sleep 3. >|= fun _ -> `Load "Hello, World!")
 let die = (fun () -> Lwt_unix.sleep 3. >|= fun _ -> `End)
 
-let init = 
-  state 
-  |> State.return 
-  |> State.add_task load_func
-  |> State.add_task animate
+
+let init state = state |> State.add_task load_func |> State.add_task animate
 
 
 let shade c = 
@@ -117,4 +114,4 @@ let update (state : (state, event) State.t) (evt : event) =
       
 let render_with_layout d s = render d s |> layout d "Load" I.empty
 
-let () = Dust.run ~init ~render:render_with_layout ~update ()
+let () = Dust.run ~model ~init ~render:render_with_layout ~update ()

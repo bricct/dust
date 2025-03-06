@@ -1,5 +1,7 @@
 (library
  (name dust)
  (public_name dust) 
- (libraries lwt notty.lwt))
+ (libraries lwt notty.lwt core)
+ (flags
+  (:standard -w -27-32-33-34-37-69)))
 

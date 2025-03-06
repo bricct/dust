@@ -85,9 +85,11 @@ let strings = [
   "Suscipit ullamcorper feugiat bibendum sit vulputate condimentum; egestas elit.";
 ]
 
-let init : (state, event) State.t = 
-  let state = List.fold_left (fun s secret -> (s |> add_secret_string secret)) empty strings in
-  let dust_state = State.return state in
+let model = 
+  List.fold_left (fun s secret -> (s |> add_secret_string secret)) empty strings
+
+
+let init : ((state, event) State.t -> (state, event) State.t) = fun dust_state ->
   fst @@ List.fold_left (fun (s, i) _ -> (s |> State.add_task (wait (`Start i)), i + 1)) (dust_state, 0) strings
 
 let render_secret (width, _) secret =
@@ -124,7 +126,7 @@ let update (state: (state, event) State.t) (evt: event) =
   | `Start id -> state 
     |> State.add_task (animate id), true
   | `Animate id ->
-      let s = State.get state in
+      let s = State.extract state in
       let secret = IntMap.find id s.strings in
       if secret.revealed >= secret.len then
           state |> State.add_command (`Finished id), true 
@@ -143,7 +145,7 @@ let update (state: (state, event) State.t) (evt: event) =
         |> State.add_task (animate id), true
   | `Finished _ -> 
       let state = state |> State.map (fun s -> {s with finished_strings = s.finished_strings + 1 }) in
-      let s = State.get state in
+      let s = State.extract state in
       if s.finished_strings = s.string_count then
         state |> State.add_task die, true
       else
@@ -152,4 +154,4 @@ let update (state: (state, event) State.t) (evt: event) =
 
 let render_with_layout d s = render d s |> Common.layout d "Secret" I.empty
 
-let () = Dust.run ~init ~render:render_with_layout ~update ()
+let () = Dust.run ~model ~init ~render:render_with_layout ~update ()

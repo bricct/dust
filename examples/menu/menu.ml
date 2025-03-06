@@ -38,7 +38,7 @@ let on_credits s = s |> State.map (fun state -> { content = (Credits "Trey Bricc
 
 let on_quit s = s |> State.add_command `End
 
-let init_state = 
+let model = 
   let menu = empty 
   |> add_choice "Start" on_start 
   |> add_choice "Credits" on_credits 
@@ -47,9 +47,6 @@ let init_state =
   {
     content = Menu menu
   }
-
-let init : (state, event) State.t =
-  init_state |> State.return
 
 
 module type Screen = sig
@@ -128,7 +125,7 @@ module Normal = struct
   type event = Dust.event
 
   let handle_keys evt t state = match evt with
-  | `Key (`Escape, _) -> state |> State.map (fun _ -> init_state), true
+  | `Key (`Escape, _) -> state |> State.map (fun _ -> model), true
   | _ -> state, false
 
   let render (w, _) s = I.string A.(fg white) s
@@ -140,7 +137,7 @@ let render dim state =
   | Normal s | Credits s -> Normal.render dim s
 
 let update (state : (state, event) State.t)  (evt : event) : (state, event) State.t * bool = 
-  let inner = State.get state in
+  let inner = State.extract state in
   match inner.content with
   | Menu m -> Menu.handle_keys evt m state
   | Normal s | Credits s -> Normal.handle_keys evt s state
@@ -154,4 +151,4 @@ let help_text =
 
 let render_with_layout d s = render d s |> Common.layout d "Menu" help_text
 
-let () = Dust.run ~init ~render:render_with_layout ~update ()
+let () = Dust.run ~model ~render:render_with_layout ~update ()
