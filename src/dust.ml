@@ -78,6 +78,8 @@ type event = [ `End
        | `Paste of Notty.Unescape.paste
        | `Resize of int * int ]
 
+module Timers = Timers2.Timers
+
 module State = struct
 
   type ('a, 'b) t = {
@@ -147,7 +149,6 @@ module State = struct
 end
 
 type ('a, 'b) state = ('a, 'b) State.t
-
 
 let draw_screen term render dim s frame =
   let new_frame = (render dim s) in

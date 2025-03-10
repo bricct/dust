@@ -19,7 +19,7 @@
  (name dust)
  (synopsis "Declarative TUI Apps")
  (description "A small TUI framework powered by lwt and notty")
- (depends ocaml dune notty lwt)
+ (depends ocaml dune notty lwt alcotest)
  (tags
   ("TUI" "Lwt" "Notty")))
 

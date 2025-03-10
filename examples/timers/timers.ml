@@ -25,9 +25,9 @@ let cancel_timer : (state, event) Dust.State.t -> (state, event) Dust.State.t = 
   Option.fold ~none:s ~some:(fun dh -> State.remove dh s) handle
 
 let init ds =  
-  let handle, ds = Dust.State.add_timer `Tick ~ms:200 ds in
+  let handle, ds = Dust.State.add_timer `Tick ~ms:1000 ds in
   let ds = State.map (fun s -> { s with timer = Some handle }) ds in
-  ds |> Dust.State.add_task (fun _ -> Lwt.(Lwt_unix.sleep 10.2 >|= fun _ -> `Cancel))
+  ds |> Dust.State.add_task (fun _ -> Lwt.(Lwt_unix.sleep 10.3 >|= fun _ -> `Cancel))
 
 let update s e = match e with
 | `Tick -> tick_state s, true

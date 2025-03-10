@@ -10,7 +10,6 @@ type 'a t = {
   promise : 'a Lwt.t option;
 }
 
-
 let compare t1 t2 = Int.compare t1.ms t2.ms
 let min t1 t2 = if compare t1 t2 <= 0 then t1 else t2
 

@@ -1,11 +1,8 @@
 (library
- (name dust)
- (public_name dust) 
- (libraries lwt notty.lwt core dust.min_heap)
+ (name min_heap)
+ (public_name dust.min_heap) 
  (flags
   (:standard -w -27-32-33-34-37-69))
  (inline_tests)
  (preprocess
   (pps ppx_inline_test ppx_expect)))
-
-
