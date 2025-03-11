@@ -1,70 +1,35 @@
 open Notty
+open Handles
+open Command
 open Lwt.Infix
 
 module T = Notty_lwt.Term
 
-type background_work = Task | Stream | Timer
-
-
-module AsyncId : sig
-  include Map.OrderedType
-  val first : t
-  val next : t -> t
-end = struct
-  type t = int
-  let first = 0
-  let next id = id + 1
-  let compare id1 id2 = Int.compare id1 id2
-end
-
-type async_id = AsyncId.t
-
-type dust_handle = background_work * async_id
  
 type 'a task = { 
-  handle : dust_handle;
-  task : (dust_handle * 'a) Lwt.t;
+  info : task_info;
+  task : (task_info * 'a) Lwt.t;
 }
 
 type 'a stream = {
-  handle : dust_handle;
-  stream : (dust_handle * 'a) Lwt.t;
+  info : task_info;
+  stream : (task_info * 'a) Lwt.t;
   restart : (unit -> 'a stream)
 }
 
-type 'a timer = {
-  handle : dust_handle;
-  iters : int;
-  timer : (dust_handle * 'a) Lwt.t;
-  restart : (unit -> 'a timer);
-}
-
-module AsyncIdMap = Map.Make(AsyncId)
-
-
 let make_task f id : 'a task = 
-  let handle = Task, id in
+  let info = Task, id in
   {
-    handle;
-    task = f () >|= (fun res -> (handle, res))
+    info;
+    task = f () >|= (fun res -> (info, res))
   }
 
 let rec make_stream f id : 'a stream = 
-  let handle = Stream, id in
+  let info = Stream, id in
   { 
-    handle;
-    stream = f () >|= (fun res -> (handle, res));
+    info;
+    stream = f () >|= (fun res -> (info, res));
     restart = fun () -> make_stream f id
-  }
-
-let rec make_timer e id ms iters : 'a timer = 
-  let handle = Timer, id in
-  let sec = Float.of_int ms /. 1000. in
-  {
-    handle;
-    iters;
-    timer = Lwt_unix.sleep sec >|= (fun _ -> (handle, e));
-    restart = fun () -> make_timer e id ms (iters - 1)
   }
 
 let event e = Lwt_stream.get (T.events e) >|= function
@@ -79,63 +44,79 @@ type event = [ `End
        | `Resize of int * int ]
 
 module Timers = Timers2.Timers
+module Timer = Timers2.Timer
+
+type 'b timers = {
+  handles : TimerSet.t;
+  heap: 'b Timers.t;
+}
 
 module State = struct
 
   type ('a, 'b) t = {
     internal : 'a;
     dim : int * int;
-    next_task_id : async_id;
-    next_stream_id : async_id;
-    next_timer_id : async_id;
-    streams : 'b stream AsyncIdMap.t;
-    tasks : 'b task AsyncIdMap.t;
-    timers : 'b timer AsyncIdMap.t;
-  }
+    commands : 'b CommandQueue.t;
+    streams : 'b stream TaskMap.t;
+    tasks : 'b task TaskMap.t;
+    timers :  'b timers;
+}
  constraint 'b = [> event]
 
 
-  let add_task : (unit -> 'b Lwt.t) -> ('a, 'b) t -> ('a, 'b) t = fun task state ->
-    let id = state.next_task_id in
-    let task = make_task task id in
-    { state with next_task_id = AsyncId.next id; tasks = AsyncIdMap.add id task state.tasks }
+  let add_task : (unit -> 'b Lwt.t) -> string -> ('a, 'b) t -> ('a, 'b) t = fun f id state ->
+    let handle = TaskMap.make_handle id state.tasks in
+    let task = make_task f handle in
+    let tasks = TaskMap.add handle task state.tasks in
+    { state with tasks }
 
-  let add_command : 'b -> ('a, 'b) t -> ('a, 'b) t = fun e s ->
-    let task = (fun () -> Lwt.return e) in
-    add_task task s
+  let add_command : 'b -> ('a, 'b) t -> ('a, 'b) t = fun command state ->
+    let commands = CommandQueue.push command state.commands in
+    { state with commands; }
 
-  let add_stream : (unit -> 'b Lwt.t) -> ('a, 'b) t -> ('a, 'b) t = fun f state ->
-    let id = state.next_stream_id in
-    let stream = make_stream f id in
-    { state with next_stream_id = AsyncId.next id; streams = AsyncIdMap.add id stream state.streams }
+  let add_stream : (unit -> 'b Lwt.t) -> string -> ('a, 'b) t -> ('a, 'b) t = fun f id state ->
+    let handle = TaskMap.make_handle id state.tasks in
+    let stream = make_stream f handle in
+    let streams = TaskMap.add handle stream state.streams in
+    { state with streams; }
 
-  let add_timer : 'b -> ms:int -> ?iters:int -> ('a, 'b) t -> dust_handle * ('a, 'b) t = fun e ~ms ?(iters = 0) state ->
-    let id = state.next_timer_id in
-    let timer = make_timer e id ms (iters - 1) in
-    ((Timer, id), { state with next_timer_id = AsyncId.next id; timers = AsyncIdMap.add id timer state.timers })
+  let add_timer :  ?iters:int -> string -> ms:int -> event:'b -> ('a, 'b) t -> ('a, 'b) t = fun ?iters id ~ms ~event state -> 
+    let { handles; heap; } = state.timers in
+    let handle = TimerSet.make_handle id handles in
+    let heap = Timers.add ?iters handle ~ms ~event heap in
+    let handles = TimerSet.add handle handles in
+    let timers = { handles; heap; } in
+    { state with timers; }
 
-  let remove : dust_handle -> ('a, 'b) t -> ('a, 'b) t = fun (bw, id) s ->
-    match bw with
-    | Task -> 
-        AsyncIdMap.find_opt id s.tasks |> Option.fold ~none:() ~some:(fun task -> Lwt.cancel task.task);
-        { s with tasks = AsyncIdMap.remove id s.tasks }
-    | Stream -> 
-        AsyncIdMap.find_opt id s.streams |> Option.fold ~none:() ~some:(fun stream -> Lwt.cancel stream.stream);
-        { s with streams = AsyncIdMap.remove id s.streams }
-    | Timer -> 
-        AsyncIdMap.find_opt id s.timers |> Option.fold ~none:() ~some:(fun timer -> Lwt.cancel timer.timer);
-        { s with timers = AsyncIdMap.remove id s.timers }
+  let remove_task id state = 
+    let handle = TaskMap.get_handle id state.tasks in
+    let tasks = TaskMap.remove ~on_remove:(fun t -> Lwt.cancel t.task) handle state.tasks in
+    { state with tasks; }
+      
+  let remove_stream id state =
+    let handle = TaskMap.get_handle id state.streams in
+    let streams = TaskMap.remove ~on_remove:(fun t -> Lwt.cancel t.stream) handle state.streams in
+    { state with streams; }
+
+  let remove_timer id state =
+    let { handles; heap; } = state.timers in
+    let handle = TimerSet.get_handle id handles in
+    let heap = Timers.remove handle heap in
+    let handles = TimerSet.remove handle handles in
+    let timers = { heap; handles; } in
+    { state with timers; }
 
   let return internal = 
     {
       internal;
       dim = (0, 0);
-      next_task_id = AsyncId.first;
-      next_stream_id = AsyncId.first;
-      next_timer_id = AsyncId.first;
-      tasks = AsyncIdMap.empty;
-      streams = AsyncIdMap.empty;
-      timers = AsyncIdMap.empty;
+      commands = CommandQueue.empty;
+      tasks = TaskMap.empty;
+      streams = TaskMap.empty;
+      timers = {
+        handles = TimerSet.empty;
+        heap = Timers.empty;
+      };
     }
 
   let extract state = state.internal
@@ -169,35 +150,44 @@ let process :
           init:('a, 'b) state ->
           unit Lwt.t = fun ~term ~f ~render ~init ->
   let rec loop : ('a, 'b) state -> image -> unit Lwt.t = fun state frame ->
-    let lwts = 
-      let task_lwts = AsyncIdMap.fold (fun _ { task; _ } acc -> task :: acc) state.tasks [] in
-      let stream_lwts = AsyncIdMap.fold (fun _ { stream; _} acc -> stream :: acc) state.streams [] in
-      let timer_lwts = AsyncIdMap.fold (fun _ { timer; _} acc -> timer :: acc) state.timers [] in
-      List.concat [task_lwts; stream_lwts; timer_lwts]
-    in
-    let finished_lwt = Lwt.choose lwts in
-    finished_lwt >>= fun (handle, res) -> 
-      let state = match handle with
-      | Stream, id ->
-        let returned_stream = AsyncIdMap.find id state.streams in
-        let restarted_stream = returned_stream.restart () in
-        let streams : 'b stream AsyncIdMap.t = AsyncIdMap.update id (Option.map (fun _ -> restarted_stream)) state.streams in
-        { state with streams; }
-      | Task, id -> 
-          let tasks : 'b task AsyncIdMap.t = AsyncIdMap.remove id state.tasks in 
-          { state with tasks; }
-      | Timer, id ->
-          let timer = AsyncIdMap.find id state.timers in
-          let restarted_timer = if timer.iters = 0 then None else Some (timer.restart ()) in
-          let timers : 'b timer AsyncIdMap.t = match restarted_timer with
-          | None -> AsyncIdMap.remove id state.timers
-          | Some timer -> AsyncIdMap.update id (Option.map (fun _ -> timer)) state.timers in
-          { state with timers; }
-      in
-      match res with
+    let handle_event (state : ('a, 'b) state) evt frame = 
+      match evt with
       | `End | `Key (`ASCII 'Q', [`Ctrl]) -> Lwt.return_unit
       | `Resize dim as evt -> invoke ({ state with dim }) evt frame
       | evt -> invoke state evt frame
+    in
+    let command, commands = CommandQueue.pop_opt state.commands in
+    match command with
+    | Some evt -> handle_event { state with commands } evt frame
+    | None ->
+      let lwts = 
+        let task_lwts = TaskMap.list_map (fun { task; _ } -> task) state.tasks in
+        let stream_lwts = TaskMap.list_map (fun  { stream; _ } -> stream) state.streams in
+        let timer_lwt = Timers.get_promise state.timers.heap in
+        let lwt_list = task_lwts @ stream_lwts in
+        match timer_lwt with 
+        | None -> lwt_list
+        | Some t_lwt -> t_lwt :: lwt_list
+      in
+      let finished_lwt = Lwt.choose lwts in
+      finished_lwt >>= fun (info, evt) -> 
+        let state = match info with
+        | Stream, id ->
+          let returned_stream = TaskMap.find id state.streams in
+          let restarted_stream = returned_stream.restart () in
+          let streams : 'b stream TaskMap.t = TaskMap.update id (Option.map (fun _ -> restarted_stream)) state.streams in
+          { state with streams; }
+        | Task, id -> 
+            let tasks : 'b task TaskMap.t = TaskMap.remove id state.tasks in 
+            { state with tasks; }
+        | Timer, id ->
+            let { heap; handles; } = state.timers in
+            let timer_removed, heap = Timers.restart heap in
+            let handles = if timer_removed then TimerSet.remove id handles else handles in
+            let timers = { heap; handles; } in
+            { state with timers; }
+        in
+        handle_event state evt frame
   and invoke s e frame =
     let cmd, s = f s e in
     match cmd with
@@ -214,7 +204,7 @@ let process :
 let run ~render ~model ~update ?(init = Fun.id) () =
   let term = T.create () in
   let events = (fun () -> event term) in
-  let state = model |> State.return |> State.add_stream events |> init in
+  let state = model |> State.return |> State.add_stream events "keyboard" |> init in
   let proc = process ~term ~init:state ~render
   ~f:(fun state e -> 
     let state', dirty = update state e in

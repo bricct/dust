@@ -2,24 +2,31 @@ module IntHeapElement = struct
   type 'a t = int
 
   let compare = Int.compare
-  let equal = Int.equal
 end
 
 module IntHeap = Min_heap.Make(IntHeapElement)
 
-type heap_op = Insert of int | Pop of int option | Remove of int
+type heap_op = Insert of int | Pop of int option | Remove of int * int option
 
 let p x = Pop (Some x)
 let n = Pop None
 let i x = Insert x
-let r x = Remove x
+let r x = Remove (x, Some x)
+let rn x = Remove (x, None)
 
 let apply t = 
   let open IntHeap in 
   let open Alcotest in
   function
   | Insert x -> t |> insert x
-  | Remove x -> t |> remove x
+  | Remove (x, expected) ->
+      (let result, t = t |> remove (fun v -> Int.equal v x) in
+      match expected, result with
+      | None, None -> t
+      | Some x, Some y when Int.equal x y -> t
+      | Some x, Some y -> fail @@ Printf.sprintf "Expected to remove value %d, but value %d was found" x y
+      | None, Some y -> fail @@ Printf.sprintf "Expected not to remove a matching entry, but value %d was found" y
+      | Some x, None -> fail @@ Printf.sprintf "Expected to remove value %d, but it was not found" x)
   | Pop s -> 
       let v, t = pop_opt t in 
       match s, v with
@@ -38,7 +45,7 @@ let basic =
 let complex =
   [
     [i 1; r 1; n; i 2; i 3; i 99; i 0; r 0; p 2; r 3; p 99; n];
-    [r 1; n; r 1; n; i 1; r 0; p 1; i 10; r 9; p 10; i 0; r 0; n];
+    [rn 1; n; rn 1; n; i 1; rn 0; p 1; i 10; rn 9; p 10; i 0; r 0; n];
     [i 4; i 1; i 2; i 5; i 6; i 33; r 4; p 1; p 2; p 5; p 6; p 33; n];
     [i 1; i 11; i 5; i 17; i 12; i 7; i 6; i 17; i 18; i 14; i 13; i 7;
      r 12; p 1; p 5; p 6; p 7; p 7; p 11; p 13; p 14; p 17; p 17; p 18; n];

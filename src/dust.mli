@@ -6,8 +6,6 @@ type event = [`End
        | `Paste of Notty.Unescape.paste
        | `Resize of int * int ]
 
-type dust_handle
-
 module State : sig
 
   type ('a, 'b) t constraint 'b = [> event]
@@ -20,11 +18,13 @@ module State : sig
   val set : ('a, 'b) t -> 'a -> ('a, 'b) t
 
   val add_command : 'b -> ('a, 'b) t -> ('a, 'b) t
-  val add_task : (unit -> 'b Lwt.t) -> ('a, 'b) t -> ('a, 'b) t
-  val add_stream : (unit -> 'b Lwt.t) -> ('a, 'b) t -> ('a, 'b) t 
-  val add_timer : 'b -> ms:int -> ?iters:int -> ('a, 'b) t -> dust_handle * ('a, 'b) t
+  val add_task : (unit -> 'b Lwt.t) -> string -> ('a, 'b) t -> ('a, 'b) t
+  val add_stream : (unit -> 'b Lwt.t) -> string -> ('a, 'b) t -> ('a, 'b) t 
+  val add_timer : ?iters:int -> string -> ms:int -> event:'b -> ('a, 'b) t -> ('a, 'b) t
 
-  val remove : dust_handle -> ('a, 'b) t -> ('a, 'b) t
+  val remove_timer : string -> ('a, 'b) t -> ('a, 'b) t
+  val remove_task : string -> ('a, 'b) t -> ('a, 'b) t
+  val remove_stream : string -> ('a, 'b) t -> ('a, 'b) t
 
 end
 

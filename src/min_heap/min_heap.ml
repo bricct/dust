@@ -1,7 +1,6 @@
 module type MinHeapElement = sig
   type 'a t
   val compare : 'a t -> 'a t -> int
-  val equal : 'a t -> 'a t -> bool
 end
 
 module type MinHeap = sig
@@ -16,7 +15,7 @@ module type MinHeap = sig
 
   val peek : 'a t -> 'a elt option
 
-  val remove : 'a elt -> 'a t -> 'a t
+  val remove : ('a elt -> bool) -> 'a t -> ('a elt option * 'a t)
 
   val pop_exn : 'a t -> ('a elt * 'a t)
 
@@ -155,10 +154,10 @@ module Make(M : MinHeapElement) : MinHeap with type 'a elt := 'a M.t = struct
   | Left :: t -> print_endline "Left"; print_path t
   | Right :: t -> print_endline "Right"; print_path t
 
-  let remove el ({ head; size } as t) =
+  let remove f ({ head; size } as t) =
     let rec find_path node el path = match node with
     | Leaf -> None
-    | Node (v, _, _) when M.equal v el -> Some path
+    | Node (v, _, _) when f v -> Some path
     | Node (v, l, r) -> 
       match find_path l el (Left :: path) with
       | Some p -> Some p
@@ -167,23 +166,19 @@ module Make(M : MinHeapElement) : MinHeap with type 'a elt := 'a M.t = struct
       | Some p -> Some p
       | None -> None
     in
-    let replace_path = Option.map List.rev (find_path head el []) in
+    let replace_path = Option.map List.rev (find_path head f []) in
     match replace_path with
-    | None -> t
+    | None -> None, t
     | Some p ->
-        let () = print_endline ("printing size " ^ Int.to_string size) in
-        let () = print_endline "printing replace path" in
-        let () = print_path p in
+        let to_remove = Some (get head p) in
         let last = path size in
-        let () = print_endline "printing last path" in
-        let () = print_path last in
         let el, head = remove_at head last in
         let size = Int.pred size in
         if path_eq last p then
-          { head; size; }
+          to_remove, { head; size; }
         else
           let head = replace_at el p head in
-          { head; size; }
+          to_remove, { head; size; }
 
   let pop_opt t =
     let { head; size; } = t in
@@ -234,12 +229,9 @@ end
 
 
 (** TEST **) 
-
 module IntHeapElement = struct
   type 'a t = int
-
   let compare = Int.compare
-  let equal = Int.equal
 end
 
 let%test _ =
