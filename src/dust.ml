@@ -81,6 +81,12 @@ module State = struct
     { state with streams; }
 
   let add_timer :  ?iters:int -> string -> ms:int -> event:'b -> ('a, 'b) t -> ('a, 'b) t = fun ?iters id ~ms ~event state -> 
+    match iters with
+    | Some x when x <= 0 -> state
+    | _ ->
+    match ms with
+    | x when x <= 0 -> state
+    | _ ->
     let { handles; heap; } = state.timers in
     let handle = TimerSet.make_handle id handles in
     let heap = Timers.add ?iters handle ~ms ~event heap in

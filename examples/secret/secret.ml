@@ -73,10 +73,15 @@ let add_secret_string s state =
 
 type event = [`Start of int | `Animate of int | `Finished of int | Dust.event]
 
-let die () = Lwt_unix.sleep 4. >|= fun _ -> `End
-let start_reveal id () = Lwt_unix.sleep 0.03 >|= fun _ -> `Start id
-let wait e () = Lwt_unix.sleep 0.2 >|= fun _ -> e
-let animate id () = Lwt_unix.sleep 0.016 >|= fun _ -> `Animate id
+let die_ms = 4000
+let start_ms = 200
+let animate_ms = 16
+
+let die = "die"
+let start id = "start_" ^ (Int.to_string id)
+let animate id = "animate_" ^ (Int.to_string id)
+
+let fire_once id event ms = State.add_timer ~iters:1 ~ms ~event id
 
 let strings = [
   "Lorem ipsum odor amet, consectetuer adipiscing elit.";
@@ -90,7 +95,7 @@ let model =
 
 
 let init : ((state, event) State.t -> (state, event) State.t) = fun dust_state ->
-  fst @@ List.fold_left (fun (s, i) _ -> (s |> State.add_task (wait (`Start i)), i + 1)) (dust_state, 0) strings
+  fst @@ List.fold_left (fun (s, i) _ -> (s |> fire_once (start i) (`Start i) start_ms), i + 1) (dust_state, 0) strings
 
 let render_secret (width, _) secret =
   let img = I.string A.(fg white) secret.render in
@@ -124,7 +129,7 @@ let update (state: (state, event) State.t) (evt: event) =
   match evt with
   | `Key (`ASCII '\\', []) -> state |> State.map (fun s -> { s with debug = not s.debug }), true
   | `Start id -> state 
-    |> State.add_task (animate id), true
+    |> fire_once (animate id) (`Animate id) animate_ms, true
   | `Animate id ->
       let s = State.extract state in
       let secret = IntMap.find id s.strings in
@@ -142,12 +147,12 @@ let update (state: (state, event) State.t) (evt: event) =
           in
           let strings = IntMap.update id (fun s -> Option.map (fun _ -> secret) s) s.strings in 
           { s with strings })
-        |> State.add_task (animate id), true
+        |> fire_once (animate id) (`Animate id) animate_ms, true
   | `Finished _ -> 
       let state = state |> State.map (fun s -> {s with finished_strings = s.finished_strings + 1 }) in
       let s = State.extract state in
       if s.finished_strings = s.string_count then
-        state |> State.add_task die, true
+        state |> fire_once die `End die_ms, true
       else
         state, true
   | _ -> state, false

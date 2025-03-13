@@ -18,11 +18,10 @@ let model = {
 
 type event = [`Timer | Dust.event]
 
-let timer = (fun () -> 
-  Lwt_unix.sleep 0.02 >|= fun _ -> `Timer)
+let timer = "timer"
 
 let init : ((state, event) State.t -> (state, event) State.t) = fun dust_state ->
-  dust_state |> State.add_stream timer
+  dust_state |> State.add_timer timer ~ms:20 ~event:`Timer
 
 let handle_space s = 
   match s.timer with

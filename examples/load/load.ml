@@ -18,12 +18,18 @@ let model = {
 
 type event = [`Load of string | `Animate | Dust.event]
 
-let animate = (fun () -> Lwt_unix.sleep 0.2 >|= fun _ -> `Animate)
-let load_func = (fun () -> Lwt_unix.sleep 3. >|= fun _ -> `Load "Hello, World!")
-let die = (fun () -> Lwt_unix.sleep 3. >|= fun _ -> `End)
+let animate = "animate"
+let animate_ms = 200
 
+let load = "load"
+let load_ms = 3000
 
-let init state = state |> State.add_task load_func |> State.add_task animate
+let die = "die"
+let die_ms = 3000
+
+let init state = state
+  |> State.add_timer load ~iters:1 ~ms:load_ms ~event:(`Load "Hello World!")
+  |> State.add_timer animate ~ms:animate_ms ~event:`Animate
 
 
 let shade c = 
@@ -103,14 +109,20 @@ let render _ state =
   Layout.flex_v ~gap:1 [shaded; wave; spinner; slash; elipses; void]
 
 let update (state : (state, event) State.t) (evt : event) = 
-  let f, task =
+  let f, should_die =
     match evt with
-    | `Load value -> (fun s -> { loaded = true; value; counter = 0 }), Some die
-    | `Animate -> (fun s -> { s with counter = (s.counter + 1) mod 4 }), Some animate
-    | _ -> Fun.id, None
+    | `Load value -> (fun s -> { loaded = true; value; counter = 0 }), true
+    | `Animate -> (fun s -> { s with counter = (s.counter + 1) mod 4 }), false
+    | _ -> Fun.id, false
   in
   let state = state |> State.map f in
-  Option.fold ~none:state ~some:(fun t -> state |> State.add_task t) task, true
+  let state = 
+    if should_die then
+      state |> State.add_timer die ~ms:die_ms ~event:`End
+    else
+      state
+  in
+  state, true
       
 let render_with_layout d s = render d s |> layout d "Load" I.empty
 
