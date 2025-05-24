@@ -127,6 +127,8 @@ module State = struct
 
   let extract state = state.internal
 
+  let dim state = state.dim
+
   let extend (f : ('a, 'b) t -> 'c) state = { state with internal = f state }
 
   let map (f : ('a -> 'b)) = extend (fun s -> s |> extract |> f)

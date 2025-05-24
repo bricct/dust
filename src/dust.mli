@@ -15,6 +15,8 @@ module State : sig
   val extract : ('a, 'b) t -> 'a
   val extend : (('a, 'b) t -> 'c) -> ('a, 'b) t -> ('c, 'b) t
 
+  val dim : ('a, 'b) t -> int * int
+
   val set : ('a, 'b) t -> 'a -> ('a, 'b) t
 
   val add_command : 'b -> ('a, 'b) t -> ('a, 'b) t

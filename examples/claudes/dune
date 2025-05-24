@@ -1,0 +1,7 @@
+(executable
+  (public_name claudes)
+  (name claudes)
+  (modules claudes)
+  (libraries dust core lwt notty common)
+  (flags
+  (:standard -w -27-32-33-34-37-69)))
