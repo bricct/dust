@@ -219,7 +219,7 @@ let update_form form evt =
   | `Key (`Tab, [`Shift;]) -> (focus_prev form, None)
   | _ -> handle_keys form.current
 
-let model = state
+let init = state
 
 let update (state : (state, Dust.event) State.t) (evt : Dust.event) =
   let s = State.extract state in
@@ -243,4 +243,4 @@ let help =
 
 let render_with_layout d s = render d s |> Common.layout d "Form" help
 
-let () = Dust.run ~model ~update ~render:render_with_layout ()
+let () = Dust.run ~model:state ~update ~render:render_with_layout ()

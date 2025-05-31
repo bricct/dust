@@ -2,14 +2,14 @@ open Notty
 open Dust
 
 
-type screen_choice = Menu | Play | Settings | Quit
+type screen_choice = Menu | Play | Credits | Quit
 
 type event = [`Animate | `Route of screen_choice | Dust.event]
 
 let string_of_choice = function
 | Menu -> "Menu"
 | Play -> "Play"
-| Settings -> "Settings"
+| Credits -> "Credits"
 | Quit -> "Quit"
 
 module type Screen = sig
@@ -83,10 +83,9 @@ end
 
 module MainMenu : Screen = struct
   include AbstractMenu
-  let main_menu_options = [Play; Settings; Quit]
+  let main_menu_options = [Play; Credits; Quit]
   let empty = empty main_menu_options
 end
-
 
 module Play : Screen = struct
   type state = 
@@ -124,8 +123,19 @@ module Play : Screen = struct
     let position = Printf.sprintf "(%d, %d), dim: (%d, %d)" x y w h in
     I.string A.empty position
 end
-  
 
+module Credits : Screen = struct
+  type state = string
+
+  let empty dim = "Trey Briccetti"
+
+  let update state: event -> state * event option = function
+  | `Key (`Escape, _) -> state, Some (`Route Menu)
+  | _ -> state, None
+
+  let render state (w, h) = 
+    I.string A.empty state
+end
 
 type state = {
   current_screen : screen;
@@ -134,8 +144,8 @@ type state = {
 let create_play dim = 
   Screen ({ state = Play.empty dim; ops = (module Play) })
 
-let create_settings dim = 
-  Screen ({ state = Play.empty dim; ops = (module Play) })
+let create_credits dim = 
+  Screen ({ state = Credits.empty dim; ops = (module Credits) })
 
 let create_main_menu dim = 
   Screen ({ state = MainMenu.empty dim; ops = (module MainMenu) })
@@ -145,10 +155,10 @@ type action =
 | Command of event
 
 let route dim = function
-| Menu -> NewScreen (create_main_menu dim)
-| Play -> NewScreen (create_play dim)
-| Settings -> NewScreen (create_settings dim)
-| Quit -> Command `End
+| Menu -> Some (create_main_menu dim)
+| Play -> Some (create_play dim)
+| Credits -> Some (create_credits dim)
+| Quit -> None
 
 let update screen event = 
   match screen with
@@ -161,8 +171,8 @@ let update dust_state (evt : event) =
   let current_screen, command = (match evt with
   | `Route screen -> (
     match route dim screen with
-    | NewScreen s -> s, None
-    | Command command -> current_screen, Some command)
+    | Some s -> s, None
+    | None -> current_screen, Some `End)
   | _ ->
     let state, command = Ops.update state evt in
     let current_screen = Screen { state; ops = (module Ops); } in
@@ -176,7 +186,7 @@ let update dust_state (evt : event) =
 let model = 
   { current_screen = (create_main_menu (10, 10)) }
 
-let render dim { current_screen; _ } = 
+let render ((w, h) as dim) { current_screen; _ } = 
   match current_screen with Screen { state; ops = (module Ops) } -> Ops.render state dim
 
 let help_text = 
