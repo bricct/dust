@@ -99,7 +99,7 @@ module State = struct
     let tasks = TaskMap.remove ~on_remove:(fun t -> Lwt.cancel t.task) handle state.tasks in
     { state with tasks; }
 
-  let remove_task_opt id state = 
+  let try_remove_task id state = 
     let handle_opt = TaskMap.get_handle_opt id state.tasks in
     match handle_opt with
     | None -> state

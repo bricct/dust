@@ -26,6 +26,7 @@ module State : sig
 
   val remove_timer : string -> ('a, 'b) t -> ('a, 'b) t
   val remove_task : string -> ('a, 'b) t -> ('a, 'b) t
+  val try_remove_task : string -> ('a, 'b) t -> ('a, 'b) t
   val remove_stream : string -> ('a, 'b) t -> ('a, 'b) t
 
 end
