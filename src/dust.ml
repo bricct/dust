@@ -224,8 +224,9 @@ let run ~render ~model ~update ?(init = Fun.id) () =
   let proc = process ~term ~init:state ~render
   ~f:(fun state e -> 
     let state', dirty = update state e in
+    let force_redraw = match e with `Resize _ -> true | _ -> false in
     let cmd = 
-      if dirty then Redraw
+      if dirty || force_redraw then Redraw
       else Continue
     in
     cmd, state')
