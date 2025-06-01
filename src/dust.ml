@@ -98,6 +98,14 @@ module State = struct
     let handle = TaskMap.get_handle id state.tasks in
     let tasks = TaskMap.remove ~on_remove:(fun t -> Lwt.cancel t.task) handle state.tasks in
     { state with tasks; }
+
+  let remove_task_opt id state = 
+    let handle_opt = TaskMap.get_handle_opt id state.tasks in
+    match handle_opt with
+    | None -> state
+    | Some handle ->
+    let tasks = TaskMap.remove ~on_remove:(fun t -> Lwt.cancel t.task) handle state.tasks in
+    { state with tasks; }
       
   let remove_stream id state =
     let handle = TaskMap.get_handle id state.streams in

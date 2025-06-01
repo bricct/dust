@@ -54,11 +54,14 @@ module TaskMap = struct
 
   let empty = HandleMap.empty
 
-  let get_handle str t =
+  let get_handle_opt str t = 
     let handle = Handle.of_string str in
-    match HandleMap.find_opt handle t with 
+    Option.map (fun _ -> handle) @@ HandleMap.find_opt handle t
+
+  let get_handle str t =
+    match get_handle_opt str t with
     | None -> failwith ("Get: Handle not found " ^ str)
-    | Some _ -> handle
+    | Some handle -> handle
 
   let make_handle str t = 
     let handle = Handle.of_string str in
