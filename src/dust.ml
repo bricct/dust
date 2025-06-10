@@ -2,17 +2,16 @@ open Notty
 open Handles
 open Command
 open Lwt.Infix
+open Timers
 
 module T = Notty_lwt.Term
 
  
 type 'a task = { 
-  info : task_info;
   task : (task_info * 'a) Lwt.t;
 }
 
 type 'a stream = {
-  info : task_info;
   stream : (task_info * 'a) Lwt.t;
   restart : (unit -> 'a stream)
 }
@@ -20,14 +19,12 @@ type 'a stream = {
 let make_task f id : 'a task = 
   let info = Task, id in
   {
-    info;
     task = f () >|= (fun res -> (info, res))
   }
 
 let rec make_stream f id : 'a stream = 
   let info = Stream, id in
   { 
-    info;
     stream = f () >|= (fun res -> (info, res));
     restart = fun () -> make_stream f id
   }
@@ -43,8 +40,6 @@ type event = [ `End
        | `Paste of Notty.Unescape.paste
        | `Resize of int * int ]
 
-module Timers = Timers2.Timers
-module Timer = Timers2.Timer
 
 type 'b timers = {
   handles : TimerSet.t;
@@ -220,7 +215,7 @@ let process :
 let run ~render ~model ~update ?(init = Fun.id) () =
   let term = T.create () in
   let events = (fun () -> event term) in
-  let state = model |> State.return |> State.add_stream events "keyboard" |> init in
+  let state = model |> State.return |> State.add_stream events "__keyboard" |> init in
   let proc = process ~term ~init:state ~render
   ~f:(fun state e -> 
     let state', dirty = update state e in

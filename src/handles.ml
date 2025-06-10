@@ -43,7 +43,7 @@ module TimerSet = struct
   let remove handle t =
     match HandleSet.find_opt handle t with
     | None -> t
-    | Some task -> HandleSet.remove handle t
+    | Some _ -> HandleSet.remove handle t
 
 end
 
